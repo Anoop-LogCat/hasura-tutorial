@@ -1,0 +1,20 @@
+version: '3.6'
+services:
+  postgres:
+    image: postgres:13
+    restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    env_file: $BASE_PATH/services/postgres/.env.development
+
+  hasura:
+    image: hasura/graphql-engine:v2.2.0
+    restart: always
+    ports:
+      - '8080:8080'
+    depends_on:
+      - 'postgres'
+    env_file: $BASE_PATH/services/hasura/.env.development
+
+volumes:
+  db_data:
